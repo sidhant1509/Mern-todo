@@ -10,14 +10,13 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
+
+
 app.use(cookieParser());
-
-
 
 
 app.post("/login", async (req, res) => {
     const userData = req.body;
-
     if (userData.email && userData.password) {
         const db = await connection();
         const collection = await db.collection('users')
@@ -42,12 +41,10 @@ app.post("/login", async (req, res) => {
             msg: 'login not done',
         })
     }
-
 })
 
 app.post("/signup", async (req, res) => {
     const userData = req.body;
-
     if (userData.email && userData.password) {
         const db = await connection();
         const collection = await db.collection('users')
@@ -67,7 +64,6 @@ app.post("/signup", async (req, res) => {
             msg: 'signup not done',
         })
     }
-
 })
 
 app.post('/add-task', verifyJWTToken, async (req, res) => {

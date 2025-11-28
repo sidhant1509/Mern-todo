@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
-const url = "mongodb://localhost:27017/";
-const dbName = "mern-todo";
+const url = "mongodb+srv://sidhant:ramankumar@cluster0.ozeffxj.mongodb.net/?appName=Cluster0";
+const dbName = "node-project";
 export const collectionName = "todo";
 const client = new MongoClient(url);
 export const connection = async () => {
