@@ -3,6 +3,8 @@ import cors from 'cors'
 import { collectionName, connection } from './dbconfig.js';
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken'
+import dotenv from "dotenv";
+dotenv.config();
 import cookieParser from 'cookie-parser';
 const app = express()
 app.use(express.json());
@@ -22,7 +24,7 @@ app.post("/login", async (req, res) => {
         const collection = await db.collection('users')
         const result = await collection.findOne({ email: userData.email, password: userData.password });
         if (result) {
-            jwt.sign(userData, 'Google', { expiresIn: '5d' }, (error, token) => {
+            jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '5d' }, (error, token) => {
                 res.send({
                     success: true,
                     msg: 'login done',
@@ -50,7 +52,7 @@ app.post("/signup", async (req, res) => {
         const collection = await db.collection('users')
         const result = await collection.insertOne(userData);
         if (result) {
-            jwt.sign(userData, 'Google', { expiresIn: '5d' }, (error, token) => {
+            jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '5d' }, (error, token) => {
                 res.send({
                     success: true,
                     msg: 'signup done',
@@ -145,7 +147,7 @@ app.delete('/delete-multiple', verifyJWTToken, async (req, res) => {
 function verifyJWTToken(req, res, next) {
     console.log("verifyJWTToken", req.cookies["token"]);
     const token = req.cookies['token'];
-    jwt.verify(token, 'Google', (error, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
         if (error) {
             return res.send({
                 msg: "invalid token",

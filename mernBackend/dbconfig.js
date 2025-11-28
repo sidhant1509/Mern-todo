@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
-
-const url = "mongodb+srv://sidhant:ramankumar@cluster0.ozeffxj.mongodb.net/?appName=Cluster0";
+import dotenv from "dotenv";
+dotenv.config();
+const url = process.env.MONGO_URL;
 const dbName = "node-project";
 export const collectionName = "todo";
 const client = new MongoClient(url);
